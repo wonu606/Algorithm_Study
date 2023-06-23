@@ -32,33 +32,14 @@
 - 참여 못해도 문제는 풀기
 - **최대한 성실하게 참여하기**
 
-## ✅ Manual
-1. 해당 저장소를 clone 합니다.
+## ✅ PR 규칙
 ```
-$ git clone https://github.com/Simple-Step-Algorithm/Java_Algorithm_Study.git
+## ✅ 문제 소개 
+## ✅ 실패했다면 실패 사유
+## ✅ 본인의 접근방법
+## ✅ 주의할 점 (혹은 새롭게 알게 된 사실)
+## ✅ 더 좋은 풀이 (선택)
 ```
-2. clone 한 디렉터리로 이동 후 본인 이름(github id)의 브랜치로 체크아웃 합니다.
-```
-$ git checkout -b {github_id}
-ex) git checkout -b jeon-cj
-```
-3. 학습한 내용을 마크다운 형식(xx.md) 혹은 PDF와 같이 Github Preview로 바로 볼 수 있는 형태의 확장자로 작성합니다.
 
-4. 작성한 자료를 본인 이름의 디렉토리에 위치시킵니다. (존재하지 않을 시 생성 후 이동)
-
-5. 변경 사항을 add/commit/push 합니다.
-```
-$ git add .
-$ git commit -m "[큰 주제] 학습 주제"
-$ git push origin {본인 브랜치 명}
-```
-6. Github에서 Pull Request를 등록합니다.<br>
-6-1) 저장소 내 Pull requests 메뉴로 이동 <br>
-6-2) New pull request 버튼 클릭<br>
-6-3) base 브랜치는 master, compare 브랜치를 {본인 브랜츠 명}으로 설정<br>
-6-4) 제목과 내용을 작성하고 Create pull request 를 클릭하여 PR 등록<br>
-📢 올려진 pr에 대해서 화요일, 목요일에 다른 사람의 풀이 방법에 대해서 리뷰 해주세요!
-
-8. Merge는 월, 수, 금 스터디 시작 전에 숙제 검사 겸 같이 해요
 
 
