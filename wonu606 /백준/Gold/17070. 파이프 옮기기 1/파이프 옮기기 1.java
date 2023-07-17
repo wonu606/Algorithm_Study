@@ -21,15 +21,13 @@ public class Main {
                     .toArray(Integer[]::new);
         }
 
-        // 0: 가로, 1: 대각, 2: 세로
         int[][][] dp = new int[size][size][3];
-        dp[0][0][0] = 1;
-        for (int col = 1; col < size; col++) {
+        dp[0][1][0] = 1;
+        for (int col = 2; col < size; col++) {
             if (map[0][col] == 1) {
                 continue;
             }
             dp[0][col][0] += dp[0][col - 1][0];
-            dp[0][col][1] += dp[0][col - 1][0];
         }
 
         for (int row = 1; row < size; row++) {
@@ -38,55 +36,17 @@ public class Main {
                     continue;
                 }
 
-                /*
-                다음 가로: 이전이 가로이거나, 대각일 경우에만 가능
-                다음 대각: 이전이 가로, 대각, 세로
-                다음 세로: 이전 대각, 세로
-                 */
-
-                dp[row][col][0] += dp[row][col - 1][0];
-                dp[row][col][1] += dp[row][col - 1][0];
+                dp[row][col][0] += dp[row][col - 1][0] + dp[row][col - 1][1];
 
                 if (map[row][col - 1] == 0 && map[row - 1][col] == 0) {
-                    dp[row][col][0] += dp[row - 1][col - 1][1];
-                    dp[row][col][1] += dp[row - 1][col - 1][1];
-                    dp[row][col][2] += dp[row - 1][col - 1][1];
+                    dp[row][col][1] += dp[row - 1][col - 1][0] + dp[row - 1][col - 1][1] + dp[row - 1][col - 1][2];
                 }
 
-                dp[row][col][1] += dp[row - 1][col][2];
-                dp[row][col][2] += dp[row - 1][col][2];
+                dp[row][col][2] += dp[row - 1][col][1] + dp[row - 1][col][2];
             }
         }
 
-//        for (int row = 0; row < size; row++) {
-//            System.out.print('[');
-//            for (int col = 0; col < size; col++) {
-//                System.out.print(map[row][col] + ", ");
-//            }
-//            System.out.print("]\n");
-//        }
-//
-//        for (int row = 0; row < size; row++) {
-//            for (int col = 0; col < size; col++) {
-//                System.out.print("[");
-//                Arrays.stream(dp[row][col])
-//                        .forEach(e -> System.out.print(e + ","));
-//                System.out.print("]\t");
-//            }
-//            System.out.println();
-//        }
-
-        int result = 0;
-        result += dp[size - 1][size - 2][0];
-        if (map[size - 1][size - 2] == 0 && map[size - 2][size - 1] == 0) {
-            result += dp[size - 2][size - 2][1];
-        }
-        result += dp[size - 2][size - 1][2];
-
-        if (map[size - 1][size - 1] == 1) {
-            result = 0;
-        }
-
+        int result = Arrays.stream(dp[size - 1][size - 1]).sum();
         writer.write(String.valueOf(result));
 
         reader.close();
