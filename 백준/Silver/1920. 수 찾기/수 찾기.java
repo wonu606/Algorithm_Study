@@ -3,11 +3,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Main {
 
@@ -26,30 +22,16 @@ public class Main {
                 .mapToInt(Integer::parseInt)
                 .toArray();
 
-        // 두번째 배열 맵 생성(key: value, value: index)
-        Map<Integer, List<Integer>> secondArrayValues = new HashMap<>();
-        for (int index = 0; index < secondArraySize; index++) {
-            int key = secondArray[index];
-            secondArrayValues.putIfAbsent(key, new ArrayList<>());
-            secondArrayValues.get(key).add(index);
-        }
+        // 첫번째 배열 정렬
+        Arrays.sort(firstArray);
 
-        // 결과 인덱스 생성
+        // 결과 생성
         int[] results = new int[secondArraySize];
 
-        // 첫번째 배열의 값이 두번째 배열 맵에 존재한다면 결과에 반영
-        for (int expectedKey : firstArray) {
-            if (!secondArrayValues.containsKey(expectedKey)) {
-                continue;
-            }
-
-            List<Integer> indexes = secondArrayValues.get(expectedKey);
-            for (Integer index : indexes) {
-                if (results[index] == 1) {
-                    break;
-                }
-                results[index] = 1;
-            }
+        // 수 찾기
+        for (int index = 0; index < secondArraySize; index++) {
+            int value = secondArray[index];
+            results[index] = find(firstArray, value);
         }
 
         // 결과 출력
@@ -59,5 +41,22 @@ public class Main {
         // 입출력 해제
         reader.close();
         writer.close();
+    }
+
+    private static int find(int[] firstArray, int value) {
+        int start = 0;
+        int end = firstArray.length - 1;
+
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if (firstArray[mid] < value) {
+                start = mid + 1;
+            } else if (firstArray[mid] > value) {
+                end = mid - 1;
+            } else {
+                return 1;
+            }
+        }
+        return 0;
     }
 }
