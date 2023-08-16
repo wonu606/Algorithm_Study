@@ -18,20 +18,20 @@ public class Main {
                 .mapToInt(Integer::parseInt)
                 .toArray();
 
-        // 이진 탐색을 통해 0에 가까운 값 찾기(N)
-        int start = 0;
-        int end = inputsSize - 1;
+        // 0에 가까운 값 찾기(최대 NlogN까지 가능)
+        int left = 0;
+        int right = inputsSize - 1;
         int answer = Integer.MAX_VALUE;
-        while (start < end) {
-            int sum = inputs[start] + inputs[end];
+        while (left < right) {
+            int sum = inputs[left] + inputs[right];
             if (Math.abs(sum) < Math.abs(answer)) {
                 answer = sum;
             }
 
             if (sum < 0) {
-                start++;
+                left++;
             } else {
-                end--;
+                right--;
             }
         }
 
@@ -43,3 +43,11 @@ public class Main {
         writer.close();
     }
 }
+
+/*
+-3 -1 5 93
+start: 0 end: 3 sum: -3 + 93 = 90(양수)
+start: 0 end: 2 sum: -3 + 5 = 2(양수)
+start: 0 end: 1 sum: -3 + -1 = -4(음수)
+start: 1 end: 1 검사X 종료
+ */
