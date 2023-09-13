@@ -15,53 +15,39 @@ public class Main {
         String target = reader.readLine();
         String source = reader.readLine();
 
-        // 마지막에서 제외하며 확인
-        /*
-        A
-        BAA
-
-        BA
-        BAA
-         */
-//        StringBuilder current = new StringBuilder(source);
-//        while (source.length() < current.length()) {
-//            char first = current.charAt(0);
-//            if (first == 'B') {
-//                current.deleteCharAt(0);
-//                current.reverse();
-//                continue;
-//            }
-//            current.deleteCharAt(current.length() - 1);
-//        }
-        int result = isChangeable(source, target);
+        boolean result = isChangeable(source, target);
 
         // 출력
-        writer.write(String.valueOf(result));
-
+        writer.write(String.valueOf(result ? 1 : 0));
         reader.close();
         writer.close();
     }
 
-    private static int isChangeable(String current, String target) {
-        int result = 0;
+    private static boolean isChangeable(String current, String target) {
+        if (current.equals(target)) {
+            return true;
+        }
 
         if (current.length() == target.length()) {
-            if (current.equals(target)) {
-                return 1;
-            }
-            return 0;
+            return false;
         }
 
-        if (current.charAt(0) == 'B') {
-            result = isChangeable(new StringBuilder(current.substring(1)).reverse().toString(),
-                    target);
+        return performActionIfFirstB(current, target) || performActionIfLastA(current, target);
+    }
+
+    private static boolean performActionIfFirstB(String current, String target) {
+        if (current.charAt(0) != 'B') {
+            return false;
         }
-        if (result == 1) {
-            return result;
+        String actionedString = new StringBuilder(current.substring(1)).reverse().toString();
+        return isChangeable(actionedString, target);
+    }
+
+    private static boolean performActionIfLastA(String current, String target) {
+        if (current.charAt(current.length() - 1) != 'A') {
+            return false;
         }
-        if (current.charAt(current.length() - 1) == 'A') {
-            return isChangeable(current.substring(0, current.length() - 1), target);
-        }
-        return result;
+        String actionedString = current.substring(0, current.length() - 1);
+        return isChangeable(actionedString, target);
     }
 }
