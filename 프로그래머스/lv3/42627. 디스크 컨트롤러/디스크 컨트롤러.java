@@ -1,38 +1,64 @@
-import java.util.*;
-
 class Solution {
+
     public int solution(int[][] jobs) {
-        Arrays.sort(jobs, (a, b) -> Integer.compare(a[0], b[0]));
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[1], b[1]));
-        
+        boolean[] visited = new boolean[jobs.length];
         int currentTime = 0;
-        int totalProcessingTime = 0;
-        int jobIndex = 0;
-        
-        while (jobIndex < jobs.length || !pq.isEmpty()) {
-            while (jobIndex < jobs.length && jobs[jobIndex][0] <= currentTime) {
-                pq.offer(jobs[jobIndex]);
-                jobIndex++;
+        int processingTimes = 0;
+
+        for (int count = 0; count < jobs.length; count++) {
+            int currentIndex = -1;
+            int minWorkingTime = Integer.MAX_VALUE;
+
+            for (int jobsIndex = 0; jobsIndex < jobs.length; jobsIndex++) {
+                if (visited[jobsIndex]) {
+                    continue;
+                }
+
+                if (currentTime < jobs[jobsIndex][0]) {
+                    continue;
+                }
+
+                if (minWorkingTime > jobs[jobsIndex][1]) {
+                    currentIndex = jobsIndex;
+                    minWorkingTime = jobs[jobsIndex][1];
+                }
             }
-            
-            if (!pq.isEmpty()) {
-                int[] job = pq.poll();
-                currentTime += job[1];
-                totalProcessingTime += currentTime - job[0];
-            } else {
-                currentTime = jobs[jobIndex][0];
+
+            if (currentIndex == -1) {
+                int fastArrivalTime = Integer.MAX_VALUE;
+                for (int jobsIndex = 0; jobsIndex < jobs.length; jobsIndex++) {
+                    if (visited[jobsIndex]) {
+                        continue;
+                    }
+
+                    if (fastArrivalTime > jobs[jobsIndex][0]) {
+                        currentIndex = jobsIndex;
+                        fastArrivalTime = jobs[jobsIndex][0];
+                    } else if (fastArrivalTime == jobs[jobsIndex][0]
+                            && jobs[currentIndex][1] > jobs[jobsIndex][1]) {
+                        currentIndex = jobsIndex;
+                    }
+                }
             }
+
+            visited[currentIndex] = true;
+
+            currentTime = Math.max(currentTime, jobs[currentIndex][0]);
+            int nextTime = currentTime + jobs[currentIndex][1];
+            processingTimes += nextTime - jobs[currentIndex][0];
+
+            currentTime = nextTime;
         }
-        
-        return totalProcessingTime / jobs.length;
+
+        return processingTimes / jobs.length;
     }
-    
+
     public static void main(String[] args) {
         Solution sol = new Solution();
         int[][] jobs = new int[][]{
-            {0, 3},
-            {1, 9},
-            {2, 6}};
+                new int[]{0, 3},
+                new int[]{10, 1}};
+
         System.out.println(sol.solution(jobs));
     }
 }
