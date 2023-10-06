@@ -21,9 +21,6 @@ class Solution {
         dp[minIndex] = sticker[minIndex];
         dp[minIndex + 1] = Math.max(sticker[minIndex], sticker[minIndex + 1]);
         
-        if (minIndex + 2 >= sticker.length) {
-            return Math.max(dp[minIndex], dp[minIndex + 1]);
-        }
         for (int i = minIndex + 2; i <= maxIndex; i++) {
             dp[i] = Math.max(dp[i - 2] + sticker[i], dp[i - 1]);
         }
