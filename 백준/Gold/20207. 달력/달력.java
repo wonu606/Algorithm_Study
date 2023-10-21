@@ -13,10 +13,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        Map<Integer, Integer> calendar = new HashMap<>();
-        for (int day = MIN_DAY; day <= MAX_DAY; day++) {
-            calendar.put(day, 0);
-        }
+        int[] calendar = new int[MAX_DAY + 1];
 
         // 입력
         int inputSize = Integer.parseInt(reader.readLine());
@@ -34,7 +31,7 @@ public class Main {
             int startDay = line[0];
             int endDay = line[1];
             for (int dayToAdd = startDay; dayToAdd <= endDay; dayToAdd++) {
-                calendar.put(dayToAdd, calendar.get(dayToAdd) + 1);
+                calendar[dayToAdd]++;
             }
         }
 
@@ -43,7 +40,7 @@ public class Main {
         int consecutiveDays = 0;
         int maxAccumulation = 0;
         for (int day = MIN_DAY; day <= MAX_DAY; day++) {
-            int currentAccumulation = calendar.get(day);
+            int currentAccumulation = calendar[day];
             if (currentAccumulation == 0) {
                 sum += consecutiveDays * maxAccumulation;
                 consecutiveDays = 0;
